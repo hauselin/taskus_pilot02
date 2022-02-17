@@ -23,7 +23,7 @@ function myFunction() {
 	Logger.log(formURL);
 
 	let form = FormApp.openById(editFormID);
-	deleteTheFreakinForm(form)
+	deleteTheFreakinForm(form);
 	form.setShowLinkToRespondAgain(false);
 
 	// change confirmation message dynamically
