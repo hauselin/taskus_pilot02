@@ -1,6 +1,6 @@
 function myFunction() {
 	// one formID for randomization form (id from EDIT page!)
-	let editFormID = "1ReY9LZFIhW6lzeOLDArNFyU5MyrCLw-fqLO3Oqp-Lvk";  // taskus pilot survey 1
+	let editFormID = "1aXiljp9TOiuRGBC-0Km3kzJipQHnpth4rBn3ylVlUEc";  // taskus pilot survey 1
 
 	// form actual urls for different sets for participants (surveys 2 onward)
 	let formURLs = [
@@ -23,7 +23,52 @@ function myFunction() {
 	Logger.log(formURL);
 
 	let form = FormApp.openById(editFormID);
+	deleteTheFreakinForm(form)
+	form.setShowLinkToRespondAgain(false);
 
-	// change dynamically
-	form.setDescription("Click/visit this link to begin: " + formURL);
+	// change confirmation message dynamically
+	form.setTitle("TaskUs Pilot Survey");
+	form.setConfirmationMessage("Click/visit this link to begin: " + formURL);
+	form.setDescription("Welcome to the pilot survey. Thanks for taking the time to complete it. To begin, click the Submit button below.");
 }
+
+
+
+
+
+
+function deleteTheFreakinForm(form) {
+
+	//First, remove list item choices. Then delete the list items.
+
+	var listItems = form.getItems(FormApp.ItemType.LIST);
+	let itemIndex = 0;
+	while (itemIndex < listItems.length) {
+		listItems[itemIndex].asListItem().setChoiceValues(['']);
+		form.deleteItem(listItems[itemIndex]);
+		itemIndex++;
+	}
+
+	//Second, remove the multiple choice item choices. Then delete the multiple 
+	//choice items.
+
+	var multipleChoiceItems = form.getItems(FormApp.ItemType.MULTIPLE_CHOICE);
+	itemIndex = 0;
+	while (itemIndex < multipleChoiceItems.length) {
+		multipleChoiceItems[itemIndex].asMultipleChoiceItem().setChoiceValues(['']);
+		form.deleteItem(multipleChoiceItems[itemIndex]);
+		itemIndex++;
+	}
+
+	//Finally, delete the remaining form items.
+
+	var items = form.getItems();
+	itemIndex = 0;
+	while (itemIndex < items.length) {
+		form.deleteItem(items[itemIndex]);
+		itemIndex++;
+	}
+}
+
+
+
